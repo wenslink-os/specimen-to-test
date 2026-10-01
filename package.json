@@ -1,0 +1,15 @@
+{
+  "name": "specimen-to-test",
+  "version": "1.0.0",
+  "description": "Turn a bug report into a portable experiment: reproduce it, shrink it, and keep it as a regression test.",
+  "license": "MIT",
+  "private": true,
+  "bin": { "specimen": "cli/specimen.js" },
+  "scripts": {
+    "test": "node --test test/specimen.test.js",
+    "build": "node tools/build-site.js",
+    "serve": "node tools/serve.js",
+    "packs": "node tools/make-packs.js"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,45 @@
+{
+  "format": 1,
+  "id": "tag-index-constructor",
+  "title": "Tag index crashes on a tag called \"constructor\"",
+  "summary": "Building an index from tag to item names works until a tag has the same name as something every object already owns.",
+  "kind": "json-transformation",
+  "environment": {
+    "runtime": "JavaScript (ES2022), run in an isolated context",
+    "notes": "Pure function: JSON in, JSON out. No network, no files, no clock."
+  },
+  "code": "function run(input) {\n  const index = {};\n  for (const item of input.items) {\n    for (const tag of item.tags) {\n      index[tag] = index[tag] || [];\n      index[tag].push(item.name);\n    }\n  }\n  return index;\n}",
+  "reference": "function run(input) {\n  const index = new Map();\n  for (const item of input.items) {\n    for (const tag of item.tags) {\n      if (!index.has(tag)) index.set(tag, []);\n      index.get(tag).push(item.name);\n    }\n  }\n  return Object.fromEntries(index);\n}",
+  "input": {
+    "items": [
+      {
+        "name": "spec",
+        "tags": [
+          "docs",
+          "constructor",
+          "v2"
+        ]
+      },
+      {
+        "name": "guide",
+        "tags": [
+          "docs",
+          "howto"
+        ]
+      },
+      {
+        "name": "faq",
+        "tags": [
+          "help",
+          "docs"
+        ]
+      }
+    ]
+  },
+  "actual": {
+    "error": {
+      "name": "TypeError"
+    }
+  },
+  "packHash": "38917b55c4ccde3f01cb99df66777a8297a53f04b445c4df63fd820d859a2c71"
+}

@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "id": "age-trailing-text",
+  "title": "Age validator accepts \"12abc\"",
+  "summary": "parseInt stops reading at the first letter, so a value with trailing text passes validation.",
+  "kind": "validation",
+  "environment": {
+    "runtime": "JavaScript (ES2022), run in an isolated context",
+    "notes": "Pure function: JSON in, JSON out. No network, no files, no clock."
+  },
+  "code": "function run(input) {\n  const v = input.value;\n  const n = typeof v === \"number\" ? v : parseInt(v, 10);\n  return Number.isInteger(n) && n >= 0 && n <= 150;\n}",
+  "reference": "function run(input) {\n  const v = input.value;\n  if (typeof v === \"number\") return Number.isInteger(v) && v >= 0 && v <= 150;\n  if (typeof v !== \"string\" || !/^[0-9]+$/.test(v)) return false;\n  return Number(v) <= 150;\n}",
+  "input": {
+    "value": "12abc"
+  },
+  "actual": {
+    "output": true
+  },
+  "packHash": "d4f4ddbc1c16a2026ec594a02f4ee7017d36ce871c28997ff68134693345eee3"
+}

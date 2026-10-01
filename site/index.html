@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' blob: 'unsafe-eval'; worker-src blob:; style-src 'self'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Specimen to test</title>
+<meta name="description" content="Open a bug report as a runnable package. Reproduce the failure, shrink the input, and keep a regression test.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#steps">Skip to the steps</a>
+<header class="head">
+  <div class="head-in">
+    <h1>Specimen to test</h1>
+    <p class="lede">A bug report that runs. Open a specimen pack, reproduce the failure, shrink the input to its smallest form, and keep it as a regression test.</p>
+  </div>
+</header>
+<main class="layout">
+  <section class="pack" aria-labelledby="pack-h">
+    <h2 id="pack-h">The specimen pack</h2>
+    <div class="samples" id="samples" role="group" aria-label="Sample packs"></div>
+    <div class="cardbox" id="card" aria-live="polite"></div>
+    <label for="pack-json" class="lab">Pack (JSON). Edit it, or paste your own.</label>
+    <textarea id="pack-json" class="editor" spellcheck="false" autocomplete="off"></textarea>
+    <div class="row">
+      <label class="filebtn" for="pack-file">Open a pack file<input type="file" id="pack-file" accept="application/json,.json" class="visually-hidden"></label>
+      <button type="button" class="btn alt" id="seal">Capture failure and seal</button>
+      <button type="button" class="btn alt" id="download-pack">Download pack</button>
+    </div>
+    <p class="warn">Pack code runs in your browser inside a Worker that has no access to this page and no network. Only open packs you trust.</p>
+  </section>
+  <section class="steps" id="steps" tabindex="-1" aria-label="Steps">
+    <article class="step">
+      <h2>Reproduce</h2>
+      <p>Run the code from the pack on the reported input and compare with the failure the reporter saw.</p>
+      <button type="button" class="btn" id="reproduce">Reproduce the failure</button>
+      <div id="repro-out" class="out" aria-live="polite"></div>
+      <details class="fixbox">
+        <summary>Try your own fix against this pack</summary>
+        <label for="fix-code" class="lab">Code that defines <code>function run(input)</code></label>
+        <textarea id="fix-code" class="editor small" spellcheck="false" autocomplete="off"></textarea>
+        <button type="button" class="btn alt" id="run-fix">Run my code</button>
+        <div id="fix-out" class="out" aria-live="polite"></div>
+      </details>
+    </article>
+    <article class="step">
+      <h2>Shrink</h2>
+      <p>Remove everything that does not matter. The smallest input that still fails the same way is the clearest bug report.</p>
+      <button type="button" class="btn" id="shrink">Shrink the input</button>
+      <div id="shrink-out" class="out" aria-live="polite"></div>
+    </article>
+    <article class="step">
+      <h2>Keep</h2>
+      <p>Generate a regression test that calls your function with this input and expects the correct answer.</p>
+      <div class="tabs" role="tablist" aria-label="Test language">
+        <button type="button" role="tab" id="tab-js" aria-selected="true" aria-controls="emit-panel">JavaScript</button>
+        <button type="button" role="tab" id="tab-py" aria-selected="false" aria-controls="emit-panel">Python</button>
+      </div>
+      <div class="panel" id="emit-panel" role="tabpanel">
+        <div class="fields">
+          <div><label for="mod" class="lab">Your module</label><input id="mod" class="input" value="./src/parser.js" autocomplete="off"></div>
+          <div><label for="fn" class="lab">Your function</label><input id="fn" class="input" value="run" autocomplete="off"></div>
+        </div>
+        <button type="button" class="btn" id="emit">Generate test</button>
+        <div id="emit-out" class="out" aria-live="polite"></div>
+      </div>
+    </article>
+  </section>
+</main>
+<footer class="foot">Code is MIT. Explanations are CC BY 4.0. Everything runs in your browser and nothing is uploaded.</footer>
+<script src="specimen-core.js"></script>
+<script src="samples.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

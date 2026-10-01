@@ -1,0 +1,26 @@
+{
+  "format": 1,
+  "id": "csv-quoted-comma",
+  "title": "CSV line splits inside a quoted field",
+  "summary": "A parser that splits on every comma breaks any field that contains a comma inside quotes.",
+  "kind": "parsing",
+  "environment": {
+    "runtime": "JavaScript (ES2022), run in an isolated context",
+    "notes": "Pure function: JSON in, JSON out. No network, no files, no clock."
+  },
+  "code": "function run(input) {\n  return input.line.split(\",\");\n}",
+  "reference": "function run(input) {\n  const line = input.line;\n  const out = [];\n  let cur = \"\";\n  let quoted = false;\n  for (let i = 0; i < line.length; i++) {\n    const c = line[i];\n    if (quoted) {\n      if (c === '\"' && line[i + 1] === '\"') { cur += '\"'; i++; }\n      else if (c === '\"') quoted = false;\n      else cur += c;\n    } else if (c === '\"') quoted = true;\n    else if (c === \",\") { out.push(cur); cur = \"\"; }\n    else cur += c;\n  }\n  out.push(cur);\n  return out;\n}",
+  "guard": "function valid(input) {\n  return typeof input.line === \"string\" && (input.line.split('\"').length - 1) % 2 === 0;\n}",
+  "input": {
+    "line": "id,\"Smith, Jane\",42"
+  },
+  "actual": {
+    "output": [
+      "id",
+      "\"Smith",
+      " Jane\"",
+      "42"
+    ]
+  },
+  "packHash": "931356ed100c3a6669c0d003e5b9bcaf575e0e2f7fa02a4b676b11d88aafece1"
+}
